@@ -1,4 +1,4 @@
-if (process.argv.length < 3) return;
+if (process.argv.length < 3) return console.log("Usage: <target port> <input port>\n\tExample: 'node PortRedir 7778 80' will redirect TCP traffic from 7778 to 80");
 const redirectTarget = process.argv[2];
 const redirectInput = process.argv[3];
 
@@ -21,7 +21,7 @@ const server = net.createServer(function (socket) {
         socket.write(data);
     });
     client.on('close', function () {
-        log("adios client");
+        log("Client closed");
         socket.destroy();
     });
     socket.on("data", (data) => {
@@ -32,7 +32,7 @@ const server = net.createServer(function (socket) {
         console.error(err.stack);
     });
     socket.on('close', () => {
-        log("adios server");
+        log("Server closed");
         client.destroy();
     });
 });
